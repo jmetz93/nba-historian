@@ -4,7 +4,8 @@ const app = require('./app');
 const { 
   port,
   db, 
-  logger } = require('./config');
+  logger 
+} = require('./config');
 
 const server = http.createServer(app);
 
