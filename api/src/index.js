@@ -1,10 +1,39 @@
 const http = require('http');
+const mongoose = require('mongoose');
 const app = require('./app');
-const { port, logger } = require('./config');
+const { 
+  port,
+  db, 
+  logger } = require('./config');
 
 const server = http.createServer(app);
 
-server.listen(port, () => {
-  logger.info(`Listening on port: ${port}`);
-});
+mongoose.connect(db.url, db.options)
+  .then(() => {
+    logger.info('Connected to MongoDB');
+    server.listen(port, () => {
+      logger.info(`Listening on port: ${port}`);
+    });
+  })
+  .catch((err) => {
+    logger.err(`Error connecting to MongoDb: ${err}`);
+  });
 
+const exitHandler = () => {
+  if (server) {
+    server.close(() => {
+      logger.info('Server connection closed');
+      process.exit(1);
+    })
+  } else {
+    process.exit(1);
+  }
+};
+
+const unexpectedErrorHandler = (error) => {
+  logger.error(error);
+  exitHandler();
+};
+
+process.on('uncaughtException', unexpectedErrorHandler);
+process.on('unhandledRejection', unexpectedErrorHandler);
