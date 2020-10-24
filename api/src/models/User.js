@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const { omit, pick } = require('lodash');
 
 const userSchema = mongoose.Schema(
   {
@@ -23,9 +24,21 @@ const userSchema = mongoose.Schema(
     },
   },
   {
-    timestamps: true
+    timestamps: true,
+    toObject: { getters: true },
+    toJSON: { getters: true },
   }
 );
+
+userSchema.methods.toJSON = function() {
+  const user = this;
+  return omit(user.toObject(), ['password']);
+};
+
+userSchema.methods.transform = function() {
+  const user = this;
+  return pick(user.toJSON(), ['id', 'username']);
+};
 
 userSchema.pre('save', async function (next) {
   const user = this;
