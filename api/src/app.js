@@ -5,6 +5,9 @@ const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
 
+const routes = require('./routes/v1');
+const { ApiError } = require('./utils');
+
 const app = express();
 
 // set security http headers
@@ -29,5 +32,7 @@ app.options('*', cors());
 app.use((_, __, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
+
+app.use('/v1', routes);
 
 module.exports = app;
