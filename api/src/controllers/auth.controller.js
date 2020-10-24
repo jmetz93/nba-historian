@@ -3,7 +3,6 @@ const { userService } = require('../services');
 const { catchAsync } = require('../utils');
 
 const register = catchAsync( async (req, res) => {
-  console.log('register request: ', req.body);
   const user = await userService.createUser(req.body);
   const response = {
     succes: true,

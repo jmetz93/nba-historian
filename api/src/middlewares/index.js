@@ -1,3 +1,4 @@
 module.exports = {
-  ...require('./error')
+  ...require('./error'),
+  validate: require('./validate')
 };
