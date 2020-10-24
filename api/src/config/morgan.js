@@ -1,5 +1,6 @@
 const morgan = require('morgan');
-const { env, logger } = require('./');
+const logger = require('./logger');
+const { env } = require('./config');
 
 morgan.token('message', (req, res) => res.locals.errorMessage || '');
 
@@ -14,7 +15,7 @@ const successHandler = morgan(successResponseFormat, {
 
 const errorHandler = morgan(errorResponseFormat, {
   skip: (req, res) => res.statusCode < 400,
-  stream: { wrtie: message => logger.error(message.trim()) },
+  stream: { write: message => logger.error(message.trim()) },
 });
 
 module.exports = {

@@ -9,8 +9,14 @@ const httpStatus = require('http-status');
 const routes = require('./routes/v1');
 const { ApiError } = require('./utils');
 const { errorConverter, errorHandler } = require('./middlewares');
-// console.log('routes stack: ', routes.stack[0].handle.stack[0].route)
+const { env, morgan } = require('./config');
+
 const app = express();
+
+if (env !== 'test') {
+  app.use(morgan.successHandler);
+  app.use(morgan.errorHandler);
+}
 
 // set security http headers
 app.use(helmet());
