@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { reject } = require('lodash');
 const moment = require('moment');
 const { 
   tokenConfig, 
@@ -17,17 +18,18 @@ const generateToken = (userId, expires, type, secret) => {
 };
 
 const verifyToken = async (token, secret) => {
-  const tokenStatus = await checkIfBlacklistToken(token);
-  if (tokenStatus.valid) {
+  const tokenValid = await checkIfBlacklistToken(token);
+  if (tokenValid) {
     const payload = jwt.verify(token, secret);
     if (!payload) {
       throw new Error('Token not found');
     }
+    await blacklistToken(token);
     return payload;
   }
 };
 
-const generateAuthTokens = (user) => {
+const generateAuthTokens = async (user) => {
   const accessTokenExpires = moment().add(tokenConfig.accessExpirationMinutes, 'minutes');
   const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS, tokenConfig.accessSecret);
 
@@ -48,7 +50,7 @@ const generateAuthTokens = (user) => {
 
 const blacklistToken = async (token) => {
   try {
-    await redisClient.LPUSH('blacklist_tokens', token);
+    redisClient.rpush('blacklist_tokens', token);
     return { success: true };
   } catch (error) {
     throw new Error(`Error blacklisting: ${error}`);
@@ -60,16 +62,28 @@ const checkIfBlacklistToken = async (token) => {
     throw new Error('No token provided');
   }
   try {
-    const blackListedTokens = await redisClient.LRANGE('blacklist_tokens', 0, -1);
-    const tokenIsBlacklisted = blackListedTokens.indexof(token) > -1;
-    if (tokenIsBlacklisted) {
-      throw new Error('Invalid token');
+    const blacklistTokenFound = await searchBlacklistTokens(token);
+    if (blacklistTokenFound) {
+      throw new Error(checkToken.err);
     }
-    return { valid: true };
+    return true;
   } catch (error) {
     throw new Error(`Blacklist check error: ${error}`);
   }
 }
+
+const searchBlacklistTokens = (token) => {
+  return new Promise((resolve) => {
+    redisClient.lrange('blacklist_tokens', 0, -1, (err, blackListedTokens) => {
+      if (err) reject({valid: false, err });
+      const tokenIsBlacklisted = blackListedTokens.indexOf(token) > -1;
+      if (tokenIsBlacklisted) {
+        resolve(true);
+      }
+      resolve(false);
+    });
+  });
+};
 
 module.exports = {
   generateToken,
