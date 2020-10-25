@@ -7,8 +7,20 @@ redisClient.on('connect', () => {
   logger.info('Redis client connected');
 });
 
+redisClient.on('ready', () => {
+  logger.info('Client connected to redis and ready to use...');
+});
+
 redisClient.on('error', (error) => {
   logger.error(error);
+});
+
+redisClient.on('end', () => {
+  logger.info('Client disconnected from redis');
+});
+
+process.on('SIGINT', () => {
+  redisClient.quit();
 });
 
 module.exports = redisClient;

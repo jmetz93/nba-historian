@@ -11,6 +11,14 @@ const createUser = async userBody => {
   return user;
 };
 
+const getUserById = async id => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No user found');
+  }
+  return user;
+}
+
 const getUserByUsername = async username => {
   const user = await User.findOne({ username });
   if (!user) {
@@ -22,4 +30,5 @@ const getUserByUsername = async username => {
 module.exports = {
   createUser,
   getUserByUsername,
+  getUserById
 };

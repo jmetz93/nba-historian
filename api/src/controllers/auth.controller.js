@@ -3,7 +3,6 @@ const { userService, tokenService, authService } = require('../services');
 const { catchAsync } = require('../utils');
 
 const register = catchAsync(async (req, res) => {
-  console.log("register")
   const user = await userService.createUser(req.body);
   const tokens = tokenService.generateAuthTokens(user)
   const response = {
@@ -15,7 +14,6 @@ const register = catchAsync(async (req, res) => {
 });
 
 const loginAttempt = catchAsync(async (req, res) => {
-  console.log('login attemp: ', req.body)
   const { username, password } = req.body;
   const user = await authService.loginWithUsernameAndPassword(username, password);
   const tokens = await tokenService.generateAuthTokens(user);
@@ -27,8 +25,15 @@ const logout = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const refreshTokens = catchAsync(async (req, res) => {
+  const { refreshToken } = req.body;
+  const tokens = await authService.refreshAuth(refreshToken);
+  res.send({ ...tokens });
+});
+
 module.exports = {
   register,
   loginAttempt,
-  logout
+  logout,
+  refreshTokens
 };
