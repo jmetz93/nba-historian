@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const { tokenConfig, tokenTypes } = require('../config');
+const { 
+  tokenConfig, 
+  tokenTypes,
+  redisClient,
+} = require('../config');
 
 const generateToken = (userId, expires, type, secret) => {
   const payload = {
@@ -12,12 +16,15 @@ const generateToken = (userId, expires, type, secret) => {
   return jwt.sign(payload, secret);
 };
 
-const verifyToken = (token, secret) => {
-  const payload = jwt.verify(token, secret);
-  if (!payload) {
-    throw new Error('Token not found');
+const verifyToken = async (token, secret) => {
+  const tokenStatus = await checkIfBlacklistToken(token);
+  if (tokenStatus.valid) {
+    const payload = jwt.verify(token, secret);
+    if (!payload) {
+      throw new Error('Token not found');
+    }
+    return payload;
   }
-  return payload;
 };
 
 const generateAuthTokens = (user) => {
@@ -39,8 +46,35 @@ const generateAuthTokens = (user) => {
   };
 };
 
+const blacklistToken = async (token) => {
+  try {
+    await redisClient.LPUSH('blacklist_tokens', token);
+    return { success: true };
+  } catch (error) {
+    throw new Error(`Error blacklisting: ${error}`);
+  }
+};
+
+const checkIfBlacklistToken = async (token) => {
+  if (!token) {
+    throw new Error('No token provided');
+  }
+  try {
+    const blackListedTokens = await redisClient.LRANGE('blacklist_tokens', 0, -1);
+    const tokenIsBlacklisted = blackListedTokens.indexof(token) > -1;
+    if (tokenIsBlacklisted) {
+      throw new Error('Invalid token');
+    }
+    return { valid: true };
+  } catch (error) {
+    throw new Error(`Blacklist check error: ${error}`);
+  }
+}
+
 module.exports = {
   generateToken,
   verifyToken,
-  generateAuthTokens
+  generateAuthTokens,
+  blacklistToken,
+  checkIfBlacklistToken
 };
