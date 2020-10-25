@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
-    "test": "jest -i",
+    "test": "jest -i --detectOpenHandles",
     "test:watch": "jest -i --watchAll",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

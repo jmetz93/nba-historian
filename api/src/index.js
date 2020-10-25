@@ -4,11 +4,11 @@ const app = require('./app');
 const { 
   port,
   db, 
-  logger 
+  logger,
+  redisClient 
 } = require('./config');
 
 const server = http.createServer(app);
-
 mongoose.connect(db.url, db.options)
   .then(() => {
     logger.info('Connected to MongoDB');
@@ -17,13 +17,15 @@ mongoose.connect(db.url, db.options)
     });
   })
   .catch((err) => {
-    logger.err(`Error connecting to MongoDb: ${err}`);
+    logger.error(`Error connecting to MongoDb: ${err}`);
   });
+
 
 const exitHandler = () => {
   if (server) {
     server.close(() => {
       logger.info('Server connection closed');
+      redisClient.close();
       process.exit(1);
     })
   } else {
@@ -38,3 +40,4 @@ const unexpectedErrorHandler = (error) => {
 
 process.on('uncaughtException', unexpectedErrorHandler);
 process.on('unhandledRejection', unexpectedErrorHandler);
+
