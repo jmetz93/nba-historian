@@ -2,15 +2,11 @@ const httpStatus = require('http-status');
 const { User } = require('../models');
 const { ApiError } = require('../utils');
 
-const checkDuplicateUsername = async (username, excludeId) => {
-  const user = await User.findOne({ username, _id: { $ne: excludeId }});
-  if (user) {
-    throw new ApiError('Username is already taken');
-  }
-};
-
 const createUser = async userBody => {
-  await checkDuplicateUsername(userBody.username);
+  const usernameTaken = await User.isUsernameTaken(userBody.username);
+  if (usernameTaken) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
+  }
   const user = await User.create(userBody);
   return user;
 };
@@ -25,5 +21,5 @@ const getUserByUsername = async username => {
 
 module.exports = {
   createUser,
-  getUserByUsername
+  getUserByUsername,
 };
