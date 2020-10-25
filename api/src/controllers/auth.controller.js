@@ -22,7 +22,13 @@ const loginAttempt = catchAsync(async (req, res) => {
   res.send({ user, tokens });
 });
 
+const logout = catchAsync(async (req, res) => {
+  await tokenService.blacklistToken(req.body.refreshToken);
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
 module.exports = {
   register,
-  loginAttempt
+  loginAttempt,
+  logout
 };

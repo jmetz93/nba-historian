@@ -5,7 +5,8 @@ const { ApiError } = require('../utils');
 
 const loginWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
-  if (!user || !user.isPasswordMatch(password)) {
+  const validPassword = await user.isPasswordMatch(password);
+  if (!user || !validPassword) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
   }
   return user;
