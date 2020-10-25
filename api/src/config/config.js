@@ -33,7 +33,7 @@ module.exports = {
       useUnifiedTopology: true,
     },
   },
-  jwt: {
+  tokenConfig: {
     accessSecret: envVars.JWT_ACCESS_SECRET,
     refreshSecret: envVars.JWT_REFRESH_SECRET,
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
