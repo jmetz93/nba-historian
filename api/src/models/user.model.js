@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcrypt');
-const { omit, pick } = require('lodash');
+const { toJson, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
   {
@@ -21,6 +20,7 @@ const userSchema = mongoose.Schema(
           throw new Error('Password must contain at least one letter and one number');
         }
       },
+      private: true,
     },
   },
   {
@@ -30,14 +30,17 @@ const userSchema = mongoose.Schema(
   }
 );
 
-userSchema.methods.toJSON = function() {
-  const user = this;
-  return omit(user.toObject(), ['password']);
+userSchema.plugin(toJson);
+userSchema.plugin(paginate);
+
+userSchema.statics.isUsernameTaken = async function (username, excludeUserId) {
+  const user = await this.findOne({ username, _id: { $ne: excludeUserId } });
+  return !!user;
 };
 
-userSchema.methods.transform = function() {
+userSchema.methods.isPasswordMatch = async function (password) {
   const user = this;
-  return pick(user.toJSON(), ['id', 'username']);
+  return bcrypt.compare(password, user.password);
 };
 
 userSchema.pre('save', async function (next) {
