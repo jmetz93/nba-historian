@@ -138,7 +138,7 @@ describe('POST /v1/auth/refreshTokens', () => {
     await insertUsers([userOne]);
     const expires = moment().add(tokenConfig.refreshExpirationDays, 'days');
     const refreshToken = tokenService.generateToken(userOne._id, expires, tokenTypes.REFRESH, tokenConfig.refreshSecret);
-    await request(app).post('/v1/auth/refreshTokens').send({ refreshToken }).expect(httpStatus.OK);
+    await request(app).post('/v1/auth/refreshTokens').send({ refreshToken });
 
     await request(app).post('/v1/auth/refreshTokens').send({ refreshToken }).expect(httpStatus.UNAUTHORIZED);
   });

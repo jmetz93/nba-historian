@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { db } = require('../../src/config');
+const { db, redisClient } = require('../../src/config');
 
 const setupTestDb = () => {
   beforeAll(async () => {
