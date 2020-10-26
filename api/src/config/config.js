@@ -25,6 +25,7 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  ballDontLieApiUrl: "https://www.balldontlie.io/api/v1",
   db: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
     options: {
