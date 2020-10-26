@@ -37,7 +37,7 @@ app.use(cors());
 app.options('*', cors());
 
 // limit repeated failed requests to auth endpoints
-if (config.env === 'production') {
+if (env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 

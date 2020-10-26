@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "pm2 start ecosystem.config.json --no-daemon",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "jest -i --detectOpenHandles",
     "test:watch": "jest -i --watchAll",
@@ -37,6 +38,8 @@
     "morgan": "^1.10.0",
     "pm2": "^4.5.0",
     "redis": "^3.0.2",
+    "swagger-jsdoc": "^4.3.1",
+    "swagger-ui-express": "^4.1.4",
     "validator": "^13.1.17",
     "xss-clean": "^0.1.1"
   },
