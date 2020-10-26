@@ -25,7 +25,7 @@ const exitHandler = () => {
   if (server) {
     server.close(() => {
       logger.info('Server connection closed');
-      redisClient.close();
+      redisClient.quit();
       process.exit(1);
     })
   } else {

@@ -8,6 +8,7 @@ const createUser = async userBody => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   }
   const user = await User.create(userBody);
+  console.log({user})
   return user;
 };
 
