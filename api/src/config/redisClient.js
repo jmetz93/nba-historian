@@ -23,4 +23,8 @@ process.on('SIGINT', () => {
   redisClient.quit();
 });
 
+process.on('exit', () => {
+  redisClient.quit();
+});
+
 module.exports = redisClient;
