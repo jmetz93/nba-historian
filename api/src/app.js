@@ -8,7 +8,7 @@ const httpStatus = require('http-status');
 
 const routes = require('./routes/v1');
 const { ApiError } = require('./utils');
-const { errorConverter, errorHandler } = require('./middlewares');
+const { errorConverter, errorHandler, authLimiter } = require('./middlewares');
 const { env, morgan } = require('./config');
 
 const app = express();
@@ -36,7 +36,12 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
+// limit repeated failed requests to auth endpoints
+if (env === 'production') {
+  app.use('/v1/auth', authLimiter);
+}
 
+// v1 api routes
 app.use('/v1', routes);
 
 // send back a 404 error for any unknown api request

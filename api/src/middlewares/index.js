@@ -1,4 +1,5 @@
 module.exports = {
   ...require('./error'),
-  validate: require('./validate')
+  validate: require('./validate'),
+  authLimiter: require('./authLimiter'),
 };
