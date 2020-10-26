@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { reject } = require('lodash');
 const moment = require('moment');
 const { 
   tokenConfig, 
@@ -73,7 +72,7 @@ const checkIfBlacklistToken = async (token) => {
 }
 
 const searchBlacklistTokens = (token) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     redisClient.lrange('blacklist_tokens', 0, -1, (err, blackListedTokens) => {
       if (err) reject({valid: false, err });
       const tokenIsBlacklisted = blackListedTokens.indexOf(token) > -1;
