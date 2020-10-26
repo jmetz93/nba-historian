@@ -5,7 +5,6 @@ const {
   port,
   db, 
   logger,
-  redisClient 
 } = require('./config');
 
 const server = http.createServer(app);
@@ -25,7 +24,6 @@ const exitHandler = () => {
   if (server) {
     server.close(() => {
       logger.info('Server connection closed');
-      redisClient.quit();
       process.exit(1);
     })
   } else {

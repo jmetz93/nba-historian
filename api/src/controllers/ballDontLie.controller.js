@@ -13,8 +13,15 @@ const getAllTeams = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ teamInfo }); 
 });
 
+const getPlayerStats = catchAsync(async (req, res) => {
+  const { playerId } = req.query;
+  const playerStats = await ballDontLieService.getSeasonStats(playerId);
+  res.status(httpStatus.OK).send({ playerStats });
+}); 
+
 
 module.exports = {
   getPlayers,
-  getAllTeams
+  getAllTeams,
+  getPlayerStats,
 };

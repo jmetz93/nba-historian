@@ -7,6 +7,13 @@ const playerSearch = {
   }),
 };
 
+const playerStats = {
+  query: Joi.object().keys({
+    playerId: Joi.string().required()
+  }),
+};
+
 module.exports = {
   playerSearch,
+  playerStats
 };
