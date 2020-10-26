@@ -12,6 +12,16 @@ const searchForPlayers = async (playerName, page = 1) => {
   }
 };
 
+const getTeams = async () => {
+  try {
+    const { data } = await axios.get(`${ballDontLieApiUrl}/teams`);
+    return data;
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, error);
+  }
+};
+
 module.exports = {
-  searchForPlayers
+  searchForPlayers,
+  getTeams
 };
