@@ -1,12 +1,35 @@
+import React, { useState, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  Switch,
+  withRouter
+} from 'react-router-dom';
+import { Router } from '../../router';
 import './App.css';
 
-function App() {
-  return (
+const App = (props) => {
+  const {} = props;
+
+  return(
     <div className="App">
-      <header className="App-header">
-      </header>
+      <Switch>
+        <Router />
+      </Switch>
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(App));
