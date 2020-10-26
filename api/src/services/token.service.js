@@ -6,6 +6,13 @@ const {
   redisClient,
 } = require('../config');
 
+/**
+ * Generate token
+ * @param {ObjectId} userId
+ * @param {Moment} expires
+ * @param {string} [secret]
+ * @returns {string}
+ */
 const generateToken = (userId, expires, type, secret) => {
   const payload = {
     sub: userId,
@@ -16,6 +23,12 @@ const generateToken = (userId, expires, type, secret) => {
   return jwt.sign(payload, secret);
 };
 
+/**
+ * Verify token and return token doc (or throw an error if it is not valid)
+ * @param {string} token
+ * @param {string} type
+ * @returns {Promise<Token>}
+ */
 const verifyToken = async (token, secret) => {
   const tokenValid = await checkIfBlacklistToken(token);
   if (tokenValid) {
@@ -28,6 +41,11 @@ const verifyToken = async (token, secret) => {
   }
 };
 
+/**
+ * Generate auth tokens
+ * @param {User} user
+ * @returns {Promise<Object>}
+ */
 const generateAuthTokens = async (user) => {
   const accessTokenExpires = moment().add(tokenConfig.accessExpirationMinutes, 'minutes');
   const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS, tokenConfig.accessSecret);
@@ -47,6 +65,11 @@ const generateAuthTokens = async (user) => {
   };
 };
 
+/**
+ * Adds token to blacklist redis store
+ * @param {string} token
+ * @returns {Promise<Object>}
+ */
 const blacklistToken = async (token) => {
   try {
     redisClient.rpush('blacklist_tokens', token);
@@ -56,6 +79,11 @@ const blacklistToken = async (token) => {
   }
 };
 
+/**
+ * Gets blacklisted tokens and determines if token is blacklisted
+ * @param {string} token
+ * @returns {Promise<Boolean>}
+ */
 const checkIfBlacklistToken = async (token) => {
   if (!token) {
     throw new Error('No token provided');
@@ -71,6 +99,11 @@ const checkIfBlacklistToken = async (token) => {
   }
 }
 
+/**
+ * Searches for token in blacklists
+ * @param {string} token
+ * @returns {Promise<Object>}
+ */
 const searchBlacklistTokens = (token) => {
   return new Promise((resolve, reject) => {
     redisClient.lrange('blacklist_tokens', 0, -1, (err, blackListedTokens) => {

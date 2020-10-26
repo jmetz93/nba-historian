@@ -5,6 +5,12 @@ const { ApiError } = require('../utils');
 const { verifyToken } = require('./token.service');
 const { tokenConfig } = require('../config');
 
+/**
+ * Login with username and password
+ * @param {string} username
+ * @param {string} password
+ * @returns {Promise<User>}
+ */
 const loginWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
   const validPassword = await user.isPasswordMatch(password);
@@ -14,6 +20,11 @@ const loginWithUsernameAndPassword = async (username, password) => {
   return user;
 };
 
+/**
+ * Refresh auth tokens
+ * @param {string} refreshToken
+ * @returns {Promise<Object>}
+ */
 const refreshAuth = async (refreshToken) => {
   try {
     const tokenPayload = await verifyToken(refreshToken, tokenConfig.refreshSecret);
