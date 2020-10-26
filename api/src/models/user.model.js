@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const { toJson, paginate } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const userSchema = mongoose.Schema(
   {
@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
   }
 );
 
-userSchema.plugin(toJson);
+userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
 
 userSchema.statics.isUsernameTaken = async function (username, excludeUserId) {

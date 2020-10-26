@@ -22,7 +22,7 @@ const getUserById = async id => {
 const getUserByUsername = async username => {
   const user = await User.findOne({ username });
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Incorrect username or password');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
   }
   return user;
 };

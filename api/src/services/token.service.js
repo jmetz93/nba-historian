@@ -90,5 +90,6 @@ module.exports = {
   verifyToken,
   generateAuthTokens,
   blacklistToken,
-  checkIfBlacklistToken
+  checkIfBlacklistToken,
+  searchBlacklistTokens
 };
