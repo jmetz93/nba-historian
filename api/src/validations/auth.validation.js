@@ -31,5 +31,5 @@ module.exports = {
   register,
   login,
   logout,
-  refreshTokens
+  refreshTokens,
 };
