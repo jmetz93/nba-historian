@@ -9,6 +9,7 @@ import { Ring } from 'react-awesome-spinners';
 import { Router } from '../../router';
 import { userActions } from '../../../actions';
 import './App.css';
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const App = (props) => {
   const [userLoaded, setUserLoaded] = useState(false);

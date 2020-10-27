@@ -37,7 +37,6 @@ const HomeView = (props) => {
     search(lastSearchAttempt, newPage);
   };
 
-  console.log({searchResults})
   const resultsExist = searchResults.hasOwnProperty('data') && searchResults.data.length > 0;
   return (
     <div class="home-container">

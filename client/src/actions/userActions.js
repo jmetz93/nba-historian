@@ -16,7 +16,7 @@ export const fetchUserAction = () => async dispatch => {
   dispatch({ type: FETCH_USER });
   const refreshToken = await getRefreshToken();
   const getUserResults = await getUser(refreshToken);
-
+  console.log({getUserResults})
   if (getUserResults.user) {
     dispatch(fetchUserDone(getUserResults));
   } else {
@@ -36,6 +36,27 @@ export const fetchUserFailed = ({ message }) => async dispatch => dispatch({
   message
 });
 
+export const loginAttemptAction = (username, password) => async dispatch => {
+  dispatch({ type: LOGIN_USER });
+  const loginResults = await loginUser(username, password);
+  console.log({loginResults})
+  if (loginResults.user) {
+    dispatch(loginAttemptDone(loginResults))
+  } else {
+    dispatch(loginAttemptFail(loginResults))
+  }
+};
+
+export const loginAttemptDone = ({ user, tokens }) => async dispatch => dispatch({
+  type: LOGIN_USER_DONE,
+  user,
+  tokens,
+});
+
+export const loginAttemptFail = ({ message }) => async dispatch => dispatch({
+  type: LOGIN_USER_FAIL,
+  message,
+});
 
 
 
