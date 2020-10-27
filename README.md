@@ -55,6 +55,9 @@ Set the environment variables:
 cp .env.example .env
 
 # open .env and modify the environment variables (if needed)
+# can leave PORT, JWT_ACCESS_EXPIRATION_MINUTES, JWT_REFRESH_EXPIRATION_DAYS as is
+# need to replace '{name-of-db-here}' with an actual database name for MONGODB_URL
+# can leave JWT_ACCESS_SECRET and JWT_REFRESH_SECRET as is for local work, but should generate something much more secure for production
 ```
 
 Install client dependencies:
