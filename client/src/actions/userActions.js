@@ -8,7 +8,9 @@ import {
   LOGIN_USER,
   LOGIN_USER_DONE,
   LOGIN_USER_FAIL,
-  
+  LOGOUT,
+  LOGOUT_DONE,
+  LOGOUT_FAILED,
 } from '../constants';
 import { getRefreshToken } from '../utils';
 import { getUser, registerUser, loginUser, logoutUser } from '../services';
@@ -78,6 +80,27 @@ export const createUserDone = ({ user, tokens }) => async dispatch => dispatch({
 
 export const createUserFailed = ({ message }) => async dispatch => dispatch({
   type: CREATE_USER_FAIL,
+  message,
+});
+
+export const logoutAction = () => async dispatch => {
+  dispatch({ type: LOGOUT });
+  const refreshToken = await getRefreshToken();
+  const logoutResult = await logoutUser(refreshToken)
+  console.log({logoutResult})
+  if (logoutResult.success) {
+    dispatch(logoutDone());
+  } else {
+    dispatch(logoutFailed(logoutResult))
+  }
+};
+
+export const logoutDone = () => async dispatch => dispatch({
+  type: LOGOUT_DONE
+});
+
+export const logoutFailed = ({ message }) => async dispatch => dispatch({
+  type: LOGOUT_FAILED,
   message,
 });
 

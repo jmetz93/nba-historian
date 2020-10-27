@@ -22,7 +22,7 @@ const loginAttempt = catchAsync(async (req, res) => {
 
 const logout = catchAsync(async (req, res) => {
   await tokenService.blacklistToken(req.body.refreshToken);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.status(httpStatus.OK).send({ success: true });
 });
 
 const checkCurrentUser = catchAsync(async (req, res) => {

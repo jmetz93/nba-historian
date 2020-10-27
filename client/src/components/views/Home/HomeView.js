@@ -13,16 +13,18 @@ import { searchPlayers } from '../../../services';
 import './HomeView.css';
 
 
-const HomeView = ({ location, isAuth, userActions }) => {
+const HomeView = (props) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [searching, setSearching] = useState(false);
   const [lastSearchAttempt, setLastSearchAttempt] = useState('');
-
+  const { location, isAuth, userActions } = props;
+  console.log('home props: ', props)
   useEffect(() => {
-    if (!!location.state && location.state.signOut && isAuth) {
-      
+    if (location.state && location.state.signout && isAuth) {
+      console.log('sign out')
+      userActions.logoutAction();
     }
   }, [location.state]);
 

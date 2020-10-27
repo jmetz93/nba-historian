@@ -29,9 +29,9 @@ const api = async (options) => {
       method,
       ...(method !== GET  && method !== DELETE && { body: JSON.stringify(body) }), // cant have body prop in get or delete request
     });
-
+    console.log({res})
     json = await res.json();
-
+    console.log({json})
     if (!res.ok) {
       
       console.warn(`Error in api call to => ${path}`, json.message, res);

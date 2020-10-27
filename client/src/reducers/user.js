@@ -8,6 +8,9 @@ import {
   CREATE_USER,
   CREATE_USER_DONE,
   CREATE_USER_FAIL,
+  LOGOUT,
+  LOGOUT_DONE,
+  LOGOUT_FAILED,
 } from '../constants';
 import { setAccessToken, setRefreshToken, removeRefreshToken } from '../utils';
 
@@ -70,6 +73,21 @@ const user = (state = {}, action) => {
       return {
         ...state,
         creatingUser: false,
+        errorMessage: action.message,
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        loggingOut: true,
+        fetchingUser: true,
+      }
+    case LOGOUT_DONE:
+      return {
+        fetchingUser: false
+      }
+    case LOGOUT_FAILED:
+      return {
+        fetchingUser: false,
         errorMessage: action.message,
       }
     default:
