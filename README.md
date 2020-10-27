@@ -13,8 +13,8 @@ This is an early version of the NBA Historian, an application that leverages the
 
 - **ES9**: latest ECMAScript features
 - **NoSQL database**: [MongoDB](https://www.mongodb.com) object data modeling using [Mongoose](https://mongoosejs.com)
-- **Authentication and authorization**: using [sonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-- **Token Blacklisting** using [Redis](
+- **Authentication and authorization**: using [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- **Token Blacklisting**: using [Redis](https://redis.io/) real time storage
 - **Validation**: request data validation using [Joi](https://github.com/hapijs/joi)
 - **Logging**: using [winston](https://github.com/winstonjs/winston) and [morgan](https://github.com/expressjs/morgan)
 - **Testing**: unit and integration tests using [Jest](https://jestjs.io) (for auth routes only, ballDontlie routes coming soon)
@@ -30,7 +30,9 @@ This is an early version of the NBA Historian, an application that leverages the
 
 ## Getting Started
 
-**REQUIRED: Mongodb installed locally and have it running**
+**REQUIRED: Mongodb installed locally and have mongod running**
+**REQUIRED: Redis installed locally**
+**REQUIRED: pm2 installed locally if you want to run api in production mode**
 
 
 ### Installation
