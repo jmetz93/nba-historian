@@ -5,7 +5,7 @@ import {
 } from '../constants';
 import { setAccessToken, setRefreshToken, removeRefreshToken } from '../utils';
 
-const user = (state={}, action) => {
+const user = (state = {}, action) => {
   switch(action.type) {
     case FETCH_USER:
       return {
