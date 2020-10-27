@@ -12,7 +12,7 @@ const Router = (props) => {
   return (
     <div>
       <Navbar authStatus={authStatus} />
-      <Route exact path='/' render={() => <HomeView { ...props} />} />
+      <Route exact path='/' render={() => <HomeView { ...props} isAuth={loggedIn} />} />
       <PrivateRoute path='/favorites' component={HomeView} isAuth={loggedIn} {...props} />
       <Route path='/login' render={() => <AuthView formType={'login'} { ...props} />} />
       <Route path='/register' render={() => <AuthView formType={'register'} { ...props} />} />

@@ -5,6 +5,9 @@ import {
   LOGIN_USER,
   LOGIN_USER_DONE,
   LOGIN_USER_FAIL,
+  CREATE_USER,
+  CREATE_USER_DONE,
+  CREATE_USER_FAIL,
 } from '../constants';
 import { setAccessToken, setRefreshToken, removeRefreshToken } from '../utils';
 
@@ -46,8 +49,28 @@ const user = (state = {}, action) => {
       };
     case LOGIN_USER_FAIL:
       return {
+        ...state,
         loginAttempting: false,
         errorMessage: action.message
+      }
+    case CREATE_USER:
+      return {
+        ...state,
+        creatingUser: true,
+      }
+    case CREATE_USER_DONE:
+      setAccessToken(action.tokens.access.token);
+      setRefreshToken(action.tokens.refresh.token);
+      return {
+        ...state,
+        ...action.user,
+        creatingUser: false,
+      }
+    case CREATE_USER_FAIL:
+      return {
+        ...state,
+        creatingUser: false,
+        errorMessage: action.message,
       }
     default:
       return state;

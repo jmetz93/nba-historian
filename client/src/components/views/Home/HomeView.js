@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Ring } from 'react-awesome-spinners';
 import { 
   Searchbar, 
@@ -6,16 +8,23 @@ import {
   SearchResultsList,
   Pagination 
 } from '../../common';
+import { userActions } from '../../../actions';
 import { searchPlayers } from '../../../services';
 import './HomeView.css';
 
 
-const HomeView = (props) => {
+const HomeView = ({ location, isAuth, userActions }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [searching, setSearching] = useState(false);
   const [lastSearchAttempt, setLastSearchAttempt] = useState('');
+
+  useEffect(() => {
+    if (!!location.state && location.state.signOut && isAuth) {
+      
+    }
+  }, [location.state]);
 
   const searchAttempt = async () => {
     if (!!searchText) {
@@ -81,4 +90,15 @@ const HomeView = (props) => {
   )
 };
 
-export default HomeView;
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeView);

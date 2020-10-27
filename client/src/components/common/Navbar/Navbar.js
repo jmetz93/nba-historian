@@ -18,7 +18,20 @@ const Navbar = (props) => {
       </div>
       <ul className="nav-menu">
         {navOptions[authStatus].map(option => (
-          <li><NavLink className="nav-links" to={option.route}>{option.name}</NavLink></li>
+          option.name !== 'Sign Out' 
+            ? <li><NavLink className="nav-links" to={option.route}>{option.name}</NavLink></li>
+            : <li>
+                <NavLink 
+                  className="nav-links" 
+                  to={{
+                    pathname: '/',
+                    state: {
+                      signout: true
+                    }
+                  }}
+                >
+                  {option.name}
+                </NavLink></li>
         ))}
       </ul>
     </nav>

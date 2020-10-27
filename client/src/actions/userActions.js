@@ -8,6 +8,7 @@ import {
   LOGIN_USER,
   LOGIN_USER_DONE,
   LOGIN_USER_FAIL,
+  
 } from '../constants';
 import { getRefreshToken } from '../utils';
 import { getUser, registerUser, loginUser, logoutUser } from '../services';
@@ -16,7 +17,7 @@ export const fetchUserAction = () => async dispatch => {
   dispatch({ type: FETCH_USER });
   const refreshToken = await getRefreshToken();
   const getUserResults = await getUser(refreshToken);
-  console.log({getUserResults})
+
   if (getUserResults.user) {
     dispatch(fetchUserDone(getUserResults));
   } else {
@@ -55,6 +56,28 @@ export const loginAttemptDone = ({ user, tokens }) => async dispatch => dispatch
 
 export const loginAttemptFail = ({ message }) => async dispatch => dispatch({
   type: LOGIN_USER_FAIL,
+  message,
+});
+
+export const createUserAction = (username, password) => async dispatch => {
+  dispatch({ type: CREATE_USER });
+  const createUserResults = await registerUser(username, password);
+  console.log({createUserResults})
+  if (createUserResults.user) {
+    dispatch(createUserDone(createUserResults));
+  } else {
+    dispatch(createUserFailed(createUserResults));
+  }
+};
+
+export const createUserDone = ({ user, tokens }) => async dispatch => dispatch({
+  type: CREATE_USER_DONE,
+  user,
+  tokens,
+});
+
+export const createUserFailed = ({ message }) => async dispatch => dispatch({
+  type: CREATE_USER_FAIL,
   message,
 });
 

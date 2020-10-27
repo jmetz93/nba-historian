@@ -27,7 +27,7 @@ const AuthView = (props) => {
 
   const signUp = (e) => {
     e.preventDefault();
-
+    userActions.createUserAction(username, password);
   };
 
   const login = (e) => {
