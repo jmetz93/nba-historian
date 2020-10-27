@@ -28,7 +28,6 @@ const DetailsView = (props) => {
     setLoadingStats(false);
   }
 
-  console.log("stats: ", seasonStats);
   return (
     <div className="details-view-container">
       <h1 className="details-title">{type === 'players' ? 'Player Details' : 'Team Details'}</h1>

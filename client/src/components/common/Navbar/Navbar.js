@@ -6,7 +6,6 @@ import './Navbar.css';
 
 const Navbar = (props) => {
   const { authStatus } = props;
-  console.log({authStatus})
 
   return (
     <nav className="NavbarItems">
