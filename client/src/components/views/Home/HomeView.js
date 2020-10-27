@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Ring } from 'react-awesome-spinners';
 import { 
   Searchbar, 
@@ -6,6 +8,7 @@ import {
   SearchResultsList,
   Pagination 
 } from '../../common';
+import { userActions } from '../../../actions';
 import { searchPlayers } from '../../../services';
 import './HomeView.css';
 
@@ -16,6 +19,13 @@ const HomeView = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searching, setSearching] = useState(false);
   const [lastSearchAttempt, setLastSearchAttempt] = useState('');
+  const { location, isAuth, userActions } = props;
+
+  useEffect(() => {
+    if (location.state && location.state.signout && isAuth) {
+      userActions.logoutAction();
+    }
+  }, [location.state]);
 
   const searchAttempt = async () => {
     if (!!searchText) {
@@ -37,7 +47,6 @@ const HomeView = (props) => {
     search(lastSearchAttempt, newPage);
   };
 
-  console.log({searchResults})
   const resultsExist = searchResults.hasOwnProperty('data') && searchResults.data.length > 0;
   return (
     <div class="home-container">
@@ -82,4 +91,15 @@ const HomeView = (props) => {
   )
 };
 
-export default HomeView;
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeView);

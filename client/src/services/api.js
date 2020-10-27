@@ -39,7 +39,6 @@ const api = async (options) => {
       throw new ApiError(json.message, res.status);
     }
   } catch (error) {
-    console.log({error})
     throw new ApiError(error.message, error.status);
   }
   return json;

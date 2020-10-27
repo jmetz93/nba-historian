@@ -20,7 +20,7 @@ const TeamsView = (props) => {
       teamsActions.fetchTeamsAction();
     }
   }, [teams.fetchingTeams]);
-  console.log({teams})
+
   return (
     <div class="home-container">
       <h1 className="search-header">All Nba Teams</h1>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import { HomeView, DetailsView, TeamsView } from '../views';
+import { HomeView, DetailsView, TeamsView, AuthView } from '../views';
 import { Navbar } from '../common';
 
 const Router = (props) => {
@@ -12,10 +12,10 @@ const Router = (props) => {
   return (
     <div>
       <Navbar authStatus={authStatus} />
-      <Route exact path='/' render={() => <HomeView { ...props} />} />
+      <Route exact path='/' render={() => <HomeView { ...props} isAuth={loggedIn} />} />
       <PrivateRoute path='/favorites' component={HomeView} isAuth={loggedIn} {...props} />
-      <Route path='/login' render={() => <HomeView { ...props} />} />
-      <Route path='/register' render={() => <HomeView { ...props} />} />
+      <Route path='/login' render={() => <AuthView formType={'login'} { ...props} />} />
+      <Route path='/register' render={() => <AuthView formType={'register'} { ...props} />} />
       <Route path='/player_details' render={() => <DetailsView { ...props} />} />
       <Route path='/team_details' render={() => <DetailsView { ...props} />} />
       <Route path='/teams' render={() => <TeamsView { ...props }/>} />
