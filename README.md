@@ -4,7 +4,7 @@ This is an early version of the NBA Historian, an application that leverages the
 
 ## Table of Contents
 
-- [Features](#features)
+- [Features](#api-features)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
 
