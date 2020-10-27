@@ -42,7 +42,6 @@ export const fetchUserFailed = ({ message }) => async dispatch => dispatch({
 export const loginAttemptAction = (username, password) => async dispatch => {
   dispatch({ type: LOGIN_USER });
   const loginResults = await loginUser(username, password);
-  console.log({loginResults})
   if (loginResults.user) {
     dispatch(loginAttemptDone(loginResults))
   } else {
@@ -64,7 +63,7 @@ export const loginAttemptFail = ({ message }) => async dispatch => dispatch({
 export const createUserAction = (username, password) => async dispatch => {
   dispatch({ type: CREATE_USER });
   const createUserResults = await registerUser(username, password);
-  console.log({createUserResults})
+
   if (createUserResults.user) {
     dispatch(createUserDone(createUserResults));
   } else {
@@ -87,7 +86,7 @@ export const logoutAction = () => async dispatch => {
   dispatch({ type: LOGOUT });
   const refreshToken = await getRefreshToken();
   const logoutResult = await logoutUser(refreshToken)
-  console.log({logoutResult})
+
   if (logoutResult.success) {
     dispatch(logoutDone());
   } else {

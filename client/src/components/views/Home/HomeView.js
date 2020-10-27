@@ -20,10 +20,9 @@ const HomeView = (props) => {
   const [searching, setSearching] = useState(false);
   const [lastSearchAttempt, setLastSearchAttempt] = useState('');
   const { location, isAuth, userActions } = props;
-  console.log('home props: ', props)
+
   useEffect(() => {
     if (location.state && location.state.signout && isAuth) {
-      console.log('sign out')
       userActions.logoutAction();
     }
   }, [location.state]);

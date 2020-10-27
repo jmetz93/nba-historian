@@ -16,8 +16,6 @@ const AuthView = (props) => {
     userActions,
     formType
   } = props;
-  // const formType = location.state.formType;
-  console.log('form props: ', props)
 
   useEffect(() => {
     if (user.id) {

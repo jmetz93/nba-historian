@@ -26,7 +26,6 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const checkCurrentUser = catchAsync(async (req, res) => {
-  console.log('checkForCurrentUser')
   const refreshToken = req.headers['authorization'];
   const userWithTokens = await authService.refreshAuth(refreshToken);
   res.send({ ...userWithTokens });
