@@ -1,7 +1,7 @@
 export const navOptions = {
   auth: [
     { route: '/', name: 'Home' },
-    { route: '/favorites', name: 'My Favorites' },
+    // { route: '/favorites', name: 'My Favorites' },
     { route: '/teams', name: 'View Teams' },
     { route: '/', name: 'Sign Out' },
   ],
