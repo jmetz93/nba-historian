@@ -7,6 +7,7 @@ authRouter.post('/register', validate(authValidation.register), authController.r
 authRouter.post('/login', validate(authValidation.login), authController.loginAttempt);
 authRouter.post('/logout', validate(authValidation.logout), authController.logout);
 authRouter.post('/refreshTokens', validate(authValidation.refreshTokens), authController.refreshTokens);
+authRouter.get('/currentUser', authController.checkCurrentUser)
 
 module.exports = authRouter;
 

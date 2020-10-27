@@ -4,10 +4,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './components/views';
 import { buildStore } from './store';
+import { fetchUserAction } from './actions/userActions';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
 const store = buildStore();
+store.dispatch(fetchUserAction());
 
 ReactDOM.render(
   <Provider store={store}>

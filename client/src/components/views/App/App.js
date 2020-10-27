@@ -5,17 +5,31 @@ import {
   Switch,
   withRouter
 } from 'react-router-dom';
+import { Ring } from 'react-awesome-spinners';
 import { Router } from '../../router';
+import { userActions } from '../../../actions';
 import './App.css';
 
 const App = (props) => {
-  const {} = props;
+  const [userLoaded, setUserLoaded] = useState(false);
+  const {
+    user,
+    userActions,
+  } = props;
 
+  useEffect(() => {
+    if (!user.fetchingUser && !userLoaded) {
+      setUserLoaded(true);
+    } else if (user.fetchingUser && userLoaded) {
+      setUserLoaded(false);
+    }
+  }, [user.fetchingUser])
+  console.log('App props: ', props)
   return(
     <div className="App">
-      <Switch>
+      {userLoaded ? <Switch>
         <Router />
-      </Switch>
+      </Switch> : <Ring />}
     </div>
   );
 };
@@ -25,7 +39,7 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  userActions: bindActionCreators(userActions, dispatch),
 });
 
 

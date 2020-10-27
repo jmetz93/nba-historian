@@ -21,9 +21,15 @@ const logout = {
   }),
 };
 
-const refreshTokens = {
+const currentUserCheck = {
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
+  }),
+};
+
+const refreshTokens = {
+  body: Joi.object().keys({
+    refreshToken: Joi.string().required(),
   }),
 };
 
@@ -31,5 +37,6 @@ module.exports = {
   register,
   login,
   logout,
+  currentUserCheck,
   refreshTokens,
 };

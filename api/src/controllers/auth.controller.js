@@ -25,15 +25,24 @@ const logout = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const refreshTokens = catchAsync(async (req, res) => {
+const checkCurrentUser = catchAsync(async (req, res) => {
+  console.log('checkForCurrentUser')
   const refreshToken = req.headers['authorization'];
-  const tokens = await authService.refreshAuth(refreshToken);
+  const userWithTokens = await authService.refreshAuth(refreshToken);
+  res.send({ ...userWithTokens });
+});
+
+const refreshTokens = catchAsync(async (req, res) => {
+  const tokens = await authService.refreshAuth(refreshToken.body.refreshToken);
+  delete tokens.user;
   res.send({ ...tokens });
 });
+
 
 module.exports = {
   register,
   loginAttempt,
   logout,
-  refreshTokens
+  refreshTokens,
+  checkCurrentUser,
 };
