@@ -5,6 +5,9 @@
   justify-content: center;
   margin-top: 3%;
 }
+ul {
+  list-style-type: none;
+}
 
 .details-title {
   margin-bottom: 4%;
@@ -16,5 +19,7 @@
 
 .detail-item {
   margin-bottom: 2%;
+  font-size: 24px;
+  text-decoration: none;
 }
 
