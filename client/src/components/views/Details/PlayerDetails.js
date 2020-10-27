@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const PlayerDetails = ({ player }) => (
   <div>
     <ul>
-      <li className="detail-item"><span className="detail-item-title">Name:</span> {player.firt_name} {player.last_name}</li>
+      <li className="detail-item"><span className="detail-item-title">Name:</span> {player.first_name} {player.last_name}</li>
       <li className="detail-item">
         <span className="detail-item-title">Team: {' '}</span>
         <Link to={{
