@@ -24,11 +24,14 @@ const App = (props) => {
       setUserLoaded(false);
     }
   }, [user.fetchingUser])
-  console.log('App props: ', props)
+  
   return(
     <div className="App">
       {userLoaded ? <Switch>
-        <Router />
+        <Router 
+          user={user}
+          userActions={userActions}
+        />
       </Switch> : <Ring />}
     </div>
   );
