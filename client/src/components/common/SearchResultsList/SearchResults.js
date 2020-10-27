@@ -8,7 +8,10 @@ const SearchResultsList = ({ list, pathname, type }) => (
       <li class="list-item">
         <Link to={{
           pathname,
-          state: item
+          state: {
+            data: item,
+            type
+          }
         }}>
           {type === 'players' ? `${item.first_name} ${item.last_name}` : item.full_name}
         </Link>
