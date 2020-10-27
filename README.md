@@ -33,6 +33,7 @@ This is an early version of the NBA Historian, an application that leverages the
 
 **REQUIRED: Mongodb installed locally and have it running**
 
+
 ### Installation
 
 Clone the repo:
@@ -42,9 +43,10 @@ git clone https://github.com/jmetz93/nba-historian
 cd nba-historian
 ```
 
-Install the dependencies:
+Install api dependencies:
 
 ```bash
+cd api
 npm install
 ```
 
@@ -56,17 +58,34 @@ cp .env.example .env
 # open .env and modify the environment variables (if needed)
 ```
 
+Install client dependencies:
+
+```bash
+cd .. # if still in api directory
+cd client
+npm install
+```
+
 ### Commands
 
 Running locally:
 
 ```bash
+cd api
 npm run dev
 ```
 
-Running in production:
+Open new terminal window for client:
+
+```
+cd client
+npm start
+```
+
+Running api in production:
 
 ```bash
+cd api
 npm start
 ```
 
